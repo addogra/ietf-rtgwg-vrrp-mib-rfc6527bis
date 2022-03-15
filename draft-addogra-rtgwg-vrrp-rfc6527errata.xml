@@ -1,0 +1,2043 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- This template is for creating an Internet Draft using xml2rfc,
+which is available here: http://xml.resource.org. -->
+<!DOCTYPE rfc SYSTEM "rfc2629-xhtml.ent">
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+<!-- used by XSLT processors -->
+<!-- For a complete list and description of processing instructions (PIs),
+please see http://xml.resource.org/authoring/README.html. -->
+<rfc
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    category="std"
+    docName="draft-addogra-rtgwg-vrrp-rfc6527eratta-00"
+    ipr="trust200902"
+    obsoletes="6527"
+    updates=""
+    submissionType="IETF"
+    xml:lang="en"
+    tocInclude="true"
+    tocDepth="4"
+    symRefs="true"
+    sortRefs="true"
+    consensus="true"
+    version="3">
+  <!-- xml2rfc v2v3 conversion 2.38.1 -->
+  <!-- category values: std, bcp, info, exp, and historic
+       ipr values: trust200902, noModificationTrust200902, noDerivativesTrust200902,
+       or pre5378Trust200902
+       you can add the attributes updates="NNNN" and obsoletes="NNNN"
+       they will automatically be output with "(if approved)" -->
+
+  <!-- ***** FRONT MATTER ***** -->
+
+  <front>
+    <!-- The abbreviated title is used in the page header - it is only necessary if the
+	 full title is longer than 39 characters -->
+
+
+    <title abbrev="VRRP Unified MIB">Definitions of Managed Objects for the Virtual Router Redundancy Protocol Version 3 (VRRPv3)</title>
+    <seriesInfo name="Internet-Draft" value="draft-addogra-rtgwg-vrrp-mib-6527errata.xml"/>
+
+    <!-- Another author who claims to be an editor -->
+
+    <author initials="A" surname="Lindem" fullname="Acee Lindem">
+      <organization>Cisco Systems</organization>
+      <address>
+	<postal>
+	  <street>301 Midenhall Way</street>
+	  <city>Cary</city>
+	  <region>NC</region>
+	  <code>27513</code>
+	  <country>USA</country>
+	</postal>
+	<email>acee@cisco.com</email>
+      </address>
+    </author>
+    <author initials="A" surname="Dogra" fullname="Aditya Dogra">
+      <organization>Cisco Systems</organization>
+      <address>
+	<postal>
+	  <street>Sarjapur Outer Ring Road</street>
+	  <city>Bangalore</city>
+	  <region>Karnataka</region>
+	  <code>560103</code>
+	  <country>India</country>
+	</postal>
+	<email>addogra@cisco.com</email>
+      </address>
+    </author>
+    <date/>
+    <area>General</area>
+    <keyword>RFC</keyword>
+    <keyword>VRRP Unified Mib</keyword>
+    <abstract>
+      <t>
+   This specification defines a portion of the Management Information
+   Base (MIB) for use with network management based on the Simple
+   Network Management Protocol (SNMP).  In particular, it defines
+   objects for configuring, monitoring, and controlling routers that
+   employ the Virtual Router Redundancy Protocol Version 3 (VRRPv3) for
+   both IPv4 and IPv6 as defined in RFC 5798.  This memo obsoletes RFC
+   2787.</t>
+      <t>
+        The VRRP terminology has been updated be in line with inclusive language
+        used in the industry.
+      </t>
+    </abstract>
+  </front>
+  <middle>
+    <section anchor="sect-1">
+      <name>The Internet-Standard Management Framework</name>
+      <t>
+   For a detailed overview of the documents that describe the current
+   Internet-Standard Management Framework, please refer to section 7 of
+   RFC 3410 <xref target="RFC3410"/>.</t>
+      <t>
+   Managed objects are accessed via a virtual information store, termed
+   the Management Information Base or MIB.  MIB objects are generally
+   accessed through the Simple Network Management Protocol (SNMP).
+   Objects in the MIB are defined using the mechanisms defined in the
+   Structure of Management Information (SMI).  This memo specifies a MIB
+   module that is compliant to the SMIv2, which is described in STD 58,
+   RFC 2578 <xref target="RFC2578"/>, STD 58, RFC 2579 <xref target="RFC2579"/> and STD 58, RFC 2580
+   <xref target="RFC2580"/>.</t>
+    </section>
+    <section anchor="sect-2">
+      <name>Introduction</name>
+      <t>
+   This specification defines a portion of the MIB for use with SNMP-
+   based network management.  In particular, it defines objects for
+   configuring, monitoring, and controlling routers that employ the
+   Virtual Router Redundancy Protocol Version 3 (VRRPv3) for both IPv4
+   and IPv6 as defined in RFC 5798 <xref target="RFC5798"/>.</t>
+    </section>
+    <section anchor="sect-3">
+      <name>Terminology</name>
+      <t>
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in RFC
+   2119 <xref target="RFC2119"/>.</t>
+    </section>
+    <section anchor="sect-4">
+      <name>Relationship to RFC 2787</name>
+      <t>
+   This document obsoletes RFC 2787 <xref target="RFC2787"/>.  The major changes in
+   this document reflect changes in the VRRP protocol between RFC 2338
+   <xref target="RFC2338"/> and RFC 5798 <xref target="RFC5798"/>.  This document is also updated to
+   conform to current MIB conventions.</t>
+    </section>
+    <section anchor="sect-5">
+      <name>Relation to Interface Group (IF-MIB)</name>
+      <t>
+   Since a router can be participating in VRRP on one or more
+   interfaces, "ifIndex" is used as an index into the tables defined in
+   the VRRP MIB.  This MIB module imports ifIndex from the IF-MIB.  At
+   this time, the latest version of the IF-MIB is from RFC 2863
+   <xref target="RFC2863"/>.</t>
+    </section>
+    <section anchor="sect-6">
+      <name>Multi-Stack Implementations</name>
+      <t>
+   This MIB module is designed to support multi-stack implementations
+   that run VRRP over IPv4 and IPv6.  The IP version, Virtual Router
+   Identifier (VRID), and ifIndex are used to uniquely identify rows in
+   a multi-stack implementation.</t>
+    </section>
+    <section anchor="sect-7">
+      <name>Interpretation of RFC 5798</name>
+      <t>
+   During the review of this document, it emerged that there are
+   different possible interpretations of <xref target="RFC5798"/>.  The authors of that
+   document and the VRRP working group were unable to reach consensus as
+   to which interpretation is correct.  This document makes the
+   following assumption:</t>
+      <dl newline="false" spacing="normal" indent="3">
+        <dt/>
+        <dd>
+      IPv4 and IPv6 virtual routers are treated as two separate logical
+      entities and represented as two separate entries in the
+      vrrpv3OperationsTable.  This is required due to the undefined
+      behavior of the protocol in <xref target="RFC5798"/> in a multi-stack scenario.</dd>
+      </dl>
+    </section>
+    <section anchor="sect-8">
+      <name>VRRP MIB Structure and Design</name>
+      <t>
+   This MIB module contains three tables:</t>
+      <dl newline="false" spacing="normal" indent="5">
+        <dt>(1)</dt>
+        <dd>
+          <t>
+	The vrrpv3OperationsTable contains objects that define the
+          </t>
+          <t>
+	operational characteristics of a VRRP router.  Rows in this
+        table correspond to instances of virtual routers.
+          </t>
+        </dd>
+        <dt>(2)</dt>
+        <dd>
+          <t>
+	The vrrpv3StatisticsTable contains the operating statistics for
+          </t>
+          <t>
+	a VRRP router.
+          </t>
+        </dd>
+        <dt>(3)</dt>
+        <dd>
+          <t>
+	The vrrpv3AssociatedIpAddrTable contains the addresses of the
+          </t>
+          <t>
+	virtual router(s) that a given VRRP router is backing up.
+          </t>
+        </dd>
+      </dl>
+      <t>
+   Tables are indexed on ifIndex, VRID, and the IP version to uniquely
+   identify a VRRP router.</t>
+      <t>
+   Notifications in this MIB module are controlled using the mechanisms
+   defined in <xref target="RFC3413"/>.</t>
+    </section>
+    <section anchor="sect-9">
+      <name>VRRP Multi-Stack Scenario</name>
+      <t>
+   The following section provides examples of how some of the objects in
+   this MIB are instantiated.</t>
+      <artwork><![CDATA[
+KEY:
+----
+The labels in the following tables and diagrams correspond to the
+actual MIB objects as follows:
+
+if      = IfIndex
+AddrType= vrrpv3OperationsInetAddrType
+VrId    = vrrpv3OperationsVrId
+State   = vrrpv3OperationsStatus
+Prior   = vrrpv3OperationsPriority
+IpAddr  = vrrpv3OperationsActiveIpAddr
+]]></artwork>
+      <t>
+   The following figure shows a hypothetical network with two VRRP
+   routers, VR1 &amp; VR2, configured with two virtual routers.  Addresses
+   in '()' indicate the address of the default gateway for a given host;
+   H1 to H4 are IPv4 hosts, and H5 to H8 are IPv6 hosts.  A, B, and C
+   are IPv4 addresses, and X, Y, and Z are IPv6 addresses.  In the
+   diagram, "Interface" is used in the context defined in IF-MIB.</t>
+      <artwork><![CDATA[
+              +------+                      +------+
+              | VR1  |                      |  VR2 |
+              |      |                      |      |
+              +------+                      +------+
+                  |                            |
+             Intf = I1                    Intf = I2
+    IP A          |   IP X         IP B        |    IP Y
+    IP C          |                            |    IP Z
+    VRID = 1      |   VRID=2       VRID=2      |    VRID = 1
+                  |                            |
+----+------+------+-+-------+--------+--------++------+--------+---
+    ^      ^        ^       ^        ^        ^       ^        ^
+    |      |        |       |        |        |       |        |
+ (IP A)  (IP A)   (IP B)  (IP B)   (IP X)   (IP X)  (IP Y)   (IP Y)
+    |      |        |       |        |        |       |        |
+ +----+  +----+  +----+  +----+    +----+   +----+  +----+  +----+
+ | H1 |  | H2 |  | H3 |  | H4 |    | H5 |   | H6 |  | H7 |  | H8 |
+ +----+  +----+  +----+  +----+    +----+   +----+  +----+  +----+
+
+        -----   MIB Tables For VRRP Router "VR1":   -----
+
+vrrpv3OperationsTable
+-------------------
+
+| if | VrId |AddrType| State | Prior |IpAddr|        |
++----+------+--------+-------+-------+------+--(..)--+
+| I1 |  01  |    1   |   M   |  255  |   A  |        |
++----+------+--------+-------+-------+------+--(..)--+
+| I1 |  01  |    2   |   B   | 1-254 |   Y  |        |
++----+------+--------+-------+-------+------+--(..)--+
+| I1 |  02  |    1   |   B   | 1-254 |   B  |        |
++----+------+--------+-------+-------+------+--(..)--+
+| I1 |  02  |    2   |   M   |  255  |   X  |        |
++----+------+--------+-------+-------+------+--------+
+
+vrrpv3AssociatedIpAddrTable
+-------------------------
+
+| if | VrId | AddrType | IP   | RowStat |
++----+------+----------+------+---------+
+| I1 |  01  |    1     |  A   | active  |
++----+------+----------+------+---------+
+| I1 |  01  |    1     |  C   | active  |
++----+------+----------+------+---------+
+| I1 |  01  |    2     |  Y   | active  |
++----+------+----------+------+---------+
+| I1 |  01  |    2     |  Z   | active  |
++----+------+----------+------+---------+
+| I1 |  02  |    1     |  B   | active  |
++----+------+----------+------+---------+
+| I1 |  02  |    2     |  X   | active  |
++----+------+----------+------+---------+
+
+        -----   MIB Tables For VRRP Router "VR2":   -----
+
+vrrpv3OperationsTable
+-------------------
+
+| if | VrId |AddrType| State | Prior |IpAddr|        |
++----+------+--------+-------+-------+------+--(..)--+
+| I2 |  01  |    1   |   B   | 1-254 |   A  |        |
++----+------+--------+-------+-------|------+--(..)--+
+| I2 |  01  |    2   |   M   | 255   |   Y  |        |
++----+------+--------+-------+-------+------+--(..)--+
+| I2 |  02  |    1   |   M   |  255  |   B  |        |
++----+------+--------+-------+-------+------+--(..)--+
+| I2 |  02  |    2   |   B   | 1-254 |   X  |        |
++----+------+--------+-------+-------+------+--------+
+
+vrrpv3AssociatedIpAddrTable
+-------------------------
+
+| if | VrId |AddrType| IP   | RowStat |
++----+------+--------+------+---------+
+| I2 |  01  |   1    |  A   | active  |
++----+------+--------+------+---------+
+| I2 |  01  |   1    |  C   | active  |
++----+------+--------+------+---------+
+| I2 |  01  |   2    |  Y   | active  |
++----+------+--------+------+---------+
+| I2 |  01  |   2    |  Z   | active  |
++----+------+--------+------+---------+
+| I2 |  02  |   1    |  B   | active  |
++----+------+--------+------+---------+
+| I2 |  02  |   2    |  X   | active  |
++----+------+--------+------+---------+
+
+NOTES:
+]]></artwork>
+      <dl newline="false" spacing="normal" indent="3">
+        <dt>1) For "State": M = Active;</dt>
+        <dd>
+          <t>
+	B = Backup.
+          </t>
+          <t>
+	In the vrrpv3OperationsTable, a "priority" of 255 indicates that
+      the respective router owns the IP address, e.g., this IP address
+      is native to the router (i.e., "the IP Address Owner").
+          </t>
+        </dd>
+      </dl>
+    </section>
+    <section anchor="sect-10">
+      <name>Definitions</name>
+      <t>
+   This MIB module makes reference to the following documents <xref target="RFC2578"/>,
+   <xref target="RFC2579"/>, <xref target="RFC2580"/>, <xref target="RFC2863"/>, and <xref target="RFC4001"/>.</t>
+      <artwork><![CDATA[
+VRRPV3-MIB DEFINITIONS ::= BEGIN
+]]></artwork>
+      <ul empty="true" spacing="normal">
+        <li>
+          <dl newline="false" spacing="normal" indent="4">
+            <dt/>
+            <dd>
+              <t>       IMPORTS
+           MODULE-IDENTITY, OBJECT-TYPE,
+           NOTIFICATION-TYPE, Counter32,
+           Integer32, mib-2, Unsigned32,
+           Counter64, TimeTicks
+               FROM SNMPv2-SMI                 -- RFC2578</t>
+              <dl newline="false" spacing="normal" indent="4">
+                <dt/>
+                <dd>           TEXTUAL-CONVENTION, RowStatus,
+           MacAddress, TruthValue, TimeStamp,
+           TimeInterval
+               FROM SNMPv2-TC                  -- RFC2579</dd>
+                <dt/>
+                <dd>           MODULE-COMPLIANCE, OBJECT-GROUP,
+           NOTIFICATION-GROUP
+               FROM SNMPv2-CONF                -- RFC2580</dd>
+                <dt/>
+                <dd>           ifIndex
+               FROM IF-MIB                     -- RFC2863</dd>
+                <dt/>
+                <dd>
+                  <t>           InetAddressType, InetAddress</t>
+                  <t>
+	FROM INET-ADDRESS-MIB;          -- RFC4001
+                  </t>
+                  <dl newline="false" spacing="normal" indent="5">
+                    <dt>vrrpv3MIB</dt>
+                    <dd>
+                      <t>
+	MODULE-IDENTITY
+                      </t>
+                      <t>
+	LAST-UPDATED "201202130000Z"         -- Feb 13, 2012
+           ORGANIZATION "IETF VRRP Working Group"
+           CONTACT-INFO
+                  "WG E-Mail: vrrp@ietf.org </t>
+                      <dl newline="false" spacing="normal" indent="11">
+                        <dt>Editor:</dt>
+                        <dd>
+                          <t>
+	Kalyan Tata
+                          </t>
+                          <t>
+	Nokia
+                              313 Fairchild Dr,
+                              Mountain View, CA 94043
+                              Tata_kalyan@yahoo.com" </t>
+                        </dd>
+                      </dl>
+                    </dd>
+                  </dl>
+                </dd>
+                <dt/>
+                <dd>
+                  <t>           DESCRIPTION
+               "This MIB describes objects used for managing Virtual Router Redundancy Protocol version 3 (VRRPv3).</t>
+                  <t>
+	Copyright (c) 2012 IETF Trust and the persons
+                identified as authors of the code.  All rights
+                reserved.
+                  </t>
+                  <t>
+	Redistribution and use in source and binary forms,
+                with or without modification, is permitted pursuant
+                to, and subject to the license terms contained in,
+                the Simplified BSD License set forth in Section
+                4.c of the IETF Trust's Legal Provisions Relating
+                to IETF Documents
+                (<eref target="http://trustee.ietf.org/license-info"/>).
+                  </t>
+                  <t>
+	This version of the MIB module is part of RFC 6527.
+                Please see the RFC for full legal notices." </t>
+                </dd>
+                <dt/>
+                <dd>           REVISION "201202120000Z"    -- Feb 13, 2012
+           DESCRIPTION "Initial version as published in RFC 6527."</dd>
+              </dl>
+            </dd>
+          </dl>
+        </li>
+      </ul>
+      <artwork><![CDATA[
+        ::= { mib-2 207 }
+
+-- Textual Conventions
+
+   Vrrpv3VrIdTC ::= TEXTUAL-CONVENTION
+        DISPLAY-HINT "d"
+        STATUS       current
+        DESCRIPTION
+]]></artwork>
+      <dl newline="false" spacing="normal" indent="-1">
+        <dt/>
+        <dd>
+          <t>               "The value of the Virtual Router Identifier noted as (VRID) in RFC 5798.  This, along with interface index (ifIndex) and IP version, serves to uniquely identify a virtual router on a given VRRP router."</t>
+          <dl newline="false" spacing="normal" indent="-1">
+            <dt/>
+            <dd>
+              <t>           REFERENCE "RFC 5798 (Sections 3 and 5.2.3)"
+           SYNTAX      Integer32 (1..255)</t>
+              <dl newline="false" spacing="normal" indent="4">
+                <dt>--</dt>
+                <dd>
+                  <t>
+	VRRPv3 MIB Groups
+                  </t>
+                  <t/>
+                </dd>
+              </dl>
+            </dd>
+          </dl>
+        </dd>
+      </dl>
+      <artwork><![CDATA[
+   vrrpv3Notifications   OBJECT IDENTIFIER ::= { vrrpv3MIB 0 }
+   vrrpv3Objects         OBJECT IDENTIFIER ::= { vrrpv3MIB 1 }
+   vrrpv3Conformance     OBJECT IDENTIFIER ::= { vrrpv3MIB 2 }
+
+-- VRRPv3 MIB Objects
+
+   vrrpv3Operations      OBJECT IDENTIFIER ::= { vrrpv3Objects 1 }
+   vrrpv3Statistics      OBJECT IDENTIFIER ::= { vrrpv3Objects 2 }
+]]></artwork>
+      <dl newline="false" spacing="normal" indent="4">
+        <dt>--</dt>
+        <dd>
+          <t>
+	VRRPv3 Operations Table
+          </t>
+          <t/>
+        </dd>
+      </dl>
+      <artwork><![CDATA[
+    vrrpv3OperationsTable OBJECT-TYPE
+        SYNTAX       SEQUENCE OF Vrrpv3OperationsEntry
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION
+            "Unified Operations table for a VRRP router that
+             consists of a sequence (i.e., one or more conceptual
+             rows) of 'vrrpv3OperationsEntry' items each of which
+             describe the operational characteristics of a virtual
+             router."
+
+        ::= { vrrpv3Operations 1 }
+
+    vrrpv3OperationsEntry OBJECT-TYPE
+        SYNTAX       Vrrpv3OperationsEntry
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION
+            "An entry in the vrrpv3OperationsTable containing the
+             operational characteristics of a virtual router.
+             On a VRRP router, a given virtual router is
+             identified by a combination of ifIndex, VRID, and
+             the IP version.  ifIndex represents an interface of
+             the router.
+]]></artwork>
+      <dl newline="false" spacing="normal" indent="13">
+        <dt/>
+        <dd>
+                A row must be created with vrrpv3OperationsStatus
+                set to initialize(1) and cannot transition to
+                backup(2) or active(3) until</dd>
+      </dl>
+      <dl newline="false" spacing="normal" indent="13">
+        <dt/>
+        <dd>
+                vrrpv3OperationsRowStatus is transitioned to
+                active(1).</dd>
+      </dl>
+      <dl newline="false" spacing="normal" indent="13">
+        <dt/>
+        <dd>
+                The information in this table is persistent and when
+                written the entity SHOULD save the change to non-
+                volatile storage."</dd>
+      </dl>
+      <artwork><![CDATA[
+        INDEX    { ifIndex, vrrpv3OperationsVrId,
+                   vrrpv3OperationsInetAddrType
+                  }
+        ::= { vrrpv3OperationsTable 1 }
+]]></artwork>
+      <artwork><![CDATA[
+    Vrrpv3OperationsEntry ::=
+
+        SEQUENCE {
+            vrrpv3OperationsVrId
+                Vrrpv3VrIdTC,
+            vrrpv3OperationsInetAddrType
+                InetAddressType,
+            vrrpv3OperationsActiveIpAddr
+                InetAddress,
+            vrrpv3OperationsPrimaryIpAddr
+                InetAddress,
+            vrrpv3OperationsVirtualMacAddr
+                MacAddress,
+            vrrpv3OperationsStatus
+                INTEGER,
+            vrrpv3OperationsPriority
+                Unsigned32,
+            vrrpv3OperationsAddrCount
+                Integer32,
+            vrrpv3OperationsAdvInterval
+                TimeInterval,
+            vrrpv3OperationsPreemptMode
+                TruthValue,
+            vrrpv3OperationsAcceptMode
+                TruthValue,
+            vrrpv3OperationsUpTime
+                TimeTicks,
+            vrrpv3OperationsRowStatus
+                RowStatus
+    }
+    vrrpv3OperationsVrId OBJECT-TYPE
+        SYNTAX       Vrrpv3VrIdTC
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION
+]]></artwork>
+      <artwork><![CDATA[
+            "This object contains the Virtual Router Identifier
+             (VRID)."
+        REFERENCE "RFC 4001"
+        ::= { vrrpv3OperationsEntry 1 }
+]]></artwork>
+      <artwork><![CDATA[
+    vrrpv3OperationsInetAddrType OBJECT-TYPE
+        SYNTAX       InetAddressType
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION
+           "The IP address type of Vrrpv3OperationsEntry and
+            Vrrpv3AssociatedIpAddrEntry.  This value determines
+            the type for vrrpv3OperationsActiveIpAddr,
+            vrrpv3OperationsPrimaryIpAddr, and
+            vrrpv3AssociatedIpAddrAddress.
+]]></artwork>
+      <artwork><![CDATA[
+             ipv4(1) and ipv6(2) are the only two values supported
+             in this MIB module."
+        REFERENCE "RFC 4001"
+        ::= { vrrpv3OperationsEntry 2 }
+]]></artwork>
+      <artwork><![CDATA[
+    vrrpv3OperationsActiveIpAddr OBJECT-TYPE
+        SYNTAX       InetAddress
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION
+          "The active router's real IP address.  The active router
+          would set this address to vrrpv3OperationsPrimaryIpAddr
+          while transitioning to active state.  For backup
+          routers, this is the IP address listed as the source in
+          the VRRP advertisement last received by this virtual
+          router."
+        REFERENCE "RFC 5798"
+        ::= { vrrpv3OperationsEntry 3 }
+
+    vrrpv3OperationsPrimaryIpAddr OBJECT-TYPE
+        SYNTAX       InetAddress
+        MAX-ACCESS   read-create
+        STATUS       current
+        DESCRIPTION
+            "In the case where there is more than one IP
+            Address (associated IP addresses) for a given
+            'ifIndex', this object is used to specify the IP
+            address that will become the
+            vrrpv3OperationsActiveIpAddr', should the virtual
+            router transition from backup state to active."
+        ::= { vrrpv3OperationsEntry 4 }
+
+    vrrpv3OperationsVirtualMacAddr OBJECT-TYPE
+        SYNTAX       MacAddress
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION
+           "The virtual MAC address of the virtual router.
+           Although this object can be derived from the
+           'vrrpv3OperationsVrId' object, it is defined so that it
+           is easily obtainable by a management application and
+           can be included in VRRP-related SNMP notifications."
+        ::= { vrrpv3OperationsEntry 5 }
+
+    vrrpv3OperationsStatus OBJECT-TYPE
+        SYNTAX       INTEGER {
+            initialize(1),
+            backup(2),
+            active(3)
+        }
+        MAX-ACCESS   read-only
+        STATUS       current
+]]></artwork>
+      <artwork><![CDATA[
+        DESCRIPTION
+            "The current state of the virtual router.  This object
+            has three defined values:
+
+            - 'initialize', which indicates that the
+               virtual router is waiting for a startup event.
+
+            - 'backup', which indicates that the virtual router is
+               monitoring the availability of the active router.
+
+            - 'active', which indicates that the virtual router
+               is forwarding packets for IP addresses that are
+               associated with this router."
+        REFERENCE "RFC 5798"
+        ::= { vrrpv3OperationsEntry 6 }
+]]></artwork>
+      <artwork><![CDATA[
+    vrrpv3OperationsPriority OBJECT-TYPE
+        SYNTAX       Unsigned32 (0..255)
+        MAX-ACCESS   read-create
+        STATUS       current
+        DESCRIPTION
+          "This object specifies the priority to be used for the
+          virtual router active election process; higher values
+          imply higher priority.
+]]></artwork>
+      <dl newline="false" spacing="normal" indent="10">
+        <dt/>
+        <dd>
+             A priority of '0', although not settable, is sent by
+             the active router to indicate that this router has
+             ceased to participate in VRRP, and a backup virtual
+             router should transition to become a new active.</dd>
+      </dl>
+      <dl newline="false" spacing="normal" indent="10">
+        <dt/>
+        <dd>
+             A priority of 255 is used for the router that owns the
+             associated IP address(es) for VRRP over IPv4 and hence
+             is not settable.</dd>
+      </dl>
+      <dl newline="false" spacing="normal" indent="10">
+        <dt/>
+        <dd>
+             Setting the values of this object to 0 or 255 should be
+             rejected by the agents implementing this MIB module.
+             For example, an SNMP agent would return 'badValue(3)'
+             when a user tries to set the values 0 or 255 for this
+             object."</dd>
+      </dl>
+      <artwork><![CDATA[
+        REFERENCE "RFC 5798, Section 6.1"
+        DEFVAL       { 100 }
+        ::= { vrrpv3OperationsEntry 7 }
+
+    vrrpv3OperationsAddrCount OBJECT-TYPE
+        SYNTAX       Integer32 (0..255)
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION
+            "The number of IP addresses that are associated with
+            this virtual router.  This number is equal to the
+            number of rows in the vrrpv3AssociatedAddrTable that
+            correspond to a given ifIndex/VRID/IP version."
+        REFERENCE "RFC 5798, Section 6.1"
+        ::= { vrrpv3OperationsEntry 8 }
+
+    vrrpv3OperationsAdvInterval OBJECT-TYPE
+        SYNTAX       TimeInterval (1..4095)
+        UNITS        "centiseconds"
+        MAX-ACCESS   read-create
+        STATUS       current
+        DESCRIPTION
+            "The time interval, in centiseconds, between sending
+            advertisement messages.  Only the active router sends
+            VRRP advertisements."
+        REFERENCE "RFC 5798, Section 6.1"
+        DEFVAL       { 100}
+        ::= { vrrpv3OperationsEntry 9 }
+
+    vrrpv3OperationsPreemptMode OBJECT-TYPE
+        SYNTAX       TruthValue
+        MAX-ACCESS   read-create
+        STATUS       current
+        DESCRIPTION
+]]></artwork>
+      <artwork><![CDATA[
+          "Controls whether a higher priority virtual router will
+          preempt a lower priority active."
+        REFERENCE "RFC 5798, Section 6.1"
+        DEFVAL       { true }
+        ::= { vrrpv3OperationsEntry 10 }
+]]></artwork>
+      <artwork><![CDATA[
+    vrrpv3OperationsAcceptMode OBJECT-TYPE
+        SYNTAX       TruthValue
+        MAX-ACCESS   read-create
+        STATUS       current
+        DESCRIPTION
+           "Controls whether a virtual router in active state
+           will accept packets addressed to the address owner's
+           IPv6 address as its own if it is not the IPv6 address
+           owner.  Default is false(2).
+           This object is not relevant for rows representing VRRP
+           over IPv4 and should be set to false(2)."
+        DEFVAL       { false }
+        ::= { vrrpv3OperationsEntry 11 }
+
+    vrrpv3OperationsUpTime OBJECT-TYPE
+        SYNTAX       TimeTicks
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION
+            "This value represents the amount of time, in
+            TimeTicks (hundredth of a second), since this virtual
+            router (i.e., the 'vrrpv3OperationsStatus')
+            transitioned out of 'initialize'."
+        REFERENCE "RFC 5798, Section 6.1"
+        ::= { vrrpv3OperationsEntry 12 }
+
+    vrrpv3OperationsRowStatus OBJECT-TYPE
+        SYNTAX       RowStatus
+        MAX-ACCESS   read-create
+        STATUS       current
+        DESCRIPTION
+          "The RowStatus variable should be used in accordance to
+           installation and removal conventions for conceptual
+           rows.
+]]></artwork>
+      <dl newline="false" spacing="normal" indent="11">
+        <dt/>
+        <dd>
+              To create a row in this table, a manager sets this
+              object to either createAndGo(4) or createAndWait(5).
+              Until instances of all corresponding columns are
+              appropriately configured, the value of the
+              corresponding instance of the
+              'vrrpv3OperationsRowStatus' column will be read as
+              notReady(3).</dd>
+      </dl>
+      <dl newline="false" spacing="normal" indent="11">
+        <dt/>
+        <dd>
+              In particular, a newly created row cannot be made
+              active(1) until (minimally) the corresponding instance
+              of vrrpv3OperationsInetAddrType, vrrpv3OperationsVrId,
+              and vrrpv3OperationsPrimaryIpAddr has been set, and
+              there is at least one active row in the
+              'vrrpv3AssociatedIpAddrTable' defining an associated
+              IP address.</dd>
+      </dl>
+      <dl newline="false" spacing="normal" indent="11">
+        <dt/>
+        <dd>
+              notInService(2) should be used to administratively
+              bring the row down.</dd>
+      </dl>
+      <artwork><![CDATA[
+           A typical order of operation to add a row is:
+           1. Create a row in vrrpv3OperationsTable with
+           createAndWait(5).
+           2. Create one or more corresponding rows in
+           vrrpv3AssociatedIpAddrTable.
+           3. Populate the vrrpv3OperationsEntry.
+           4. Set vrrpv3OperationsRowStatus to active(1).
+]]></artwork>
+      <artwork><![CDATA[
+           A typical order of operation to delete an entry is:
+           1. Set vrrpv3OperationsRowStatus to notInService(2).
+           2. Set the corresponding rows in
+           vrrpv3AssociatedIpAddrTable to destroy(6) to delete
+           the entry.
+           3. Set vrrpv3OperationsRowStatus to destroy(6) to
+           delete the entry."
+        ::= { vrrpv3OperationsEntry 13 }
+
+--  VRRP Associated Address Table
+]]></artwork>
+      <artwork><![CDATA[
+    vrrpv3AssociatedIpAddrTable OBJECT-TYPE
+        SYNTAX       SEQUENCE OF Vrrpv3AssociatedIpAddrEntry
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION
+            "The table of addresses associated with each virtual
+             router."
+        ::= { vrrpv3Operations 2 }
+
+    vrrpv3AssociatedIpAddrEntry OBJECT-TYPE
+        SYNTAX       Vrrpv3AssociatedIpAddrEntry
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION
+           "An entry in the table contains an IP address that is
+           associated with a virtual router.  The number of rows
+           for a given IP version, VrID, and ifIndex will equal
+           the number of IP addresses associated (e.g., backed up)
+           by the virtual router (equivalent to
+           'vrrpv3OperationsIpAddrCount').
+]]></artwork>
+      <dl newline="false" spacing="normal" indent="11">
+        <dt/>
+        <dd>
+              Rows in the table cannot be modified unless the value
+              of 'vrrpv3OperationsStatus' for the corresponding entry
+              in the vrrpv3OperationsTable has transitioned to
+              initialize(1).</dd>
+      </dl>
+      <dl newline="false" spacing="normal" indent="11">
+        <dt/>
+        <dd>
+              The information in this table is persistent and when
+              written the entity SHOULD save the change to non-
+              volatile storage."</dd>
+      </dl>
+      <artwork><![CDATA[
+        INDEX    { ifIndex, vrrpv3OperationsVrId,
+                   vrrpv3OperationsInetAddrType,
+                   vrrpv3AssociatedIpAddrAddress }
+]]></artwork>
+      <artwork><![CDATA[
+        ::= { vrrpv3AssociatedIpAddrTable 1 }
+
+    Vrrpv3AssociatedIpAddrEntry ::=
+        SEQUENCE {
+            vrrpv3AssociatedIpAddrAddress
+]]></artwork>
+      <artwork><![CDATA[
+                InetAddress,
+            vrrpv3AssociatedIpAddrRowStatus
+                RowStatus
+    }
+]]></artwork>
+      <artwork><![CDATA[
+    vrrpv3AssociatedIpAddrAddress OBJECT-TYPE
+        SYNTAX       InetAddress (SIZE (0|4|16))
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION
+            "The assigned IP addresses that a virtual router is
+            responsible for backing up.
+]]></artwork>
+      <artwork><![CDATA[
+            The IP address type is determined by the value of
+            vrrpv3OperationsInetAddrType in the index of this
+            row."
+        REFERENCE "RFC 5798"
+        ::= { vrrpv3AssociatedIpAddrEntry 1 }
+]]></artwork>
+      <artwork><![CDATA[
+    vrrpv3AssociatedIpAddrRowStatus OBJECT-TYPE
+        SYNTAX       RowStatus
+        MAX-ACCESS   read-create
+        STATUS       current
+        DESCRIPTION
+          "The row status variable, used according to
+          installation and removal conventions for conceptual
+          rows.  To create a row in this table, a manager sets
+          this object to either createAndGo(4) or
+          createAndWait(5).  Setting this object to active(1)
+          results in the addition of an associated address for a
+          virtual router.  Setting this object to notInService(2)
+          results in administratively bringing down the row.
+]]></artwork>
+      <dl newline="false" spacing="normal" indent="10">
+        <dt/>
+        <dd>
+             Destroying the entry or setting it to destroy(6)
+             removes the associated address from the virtual router.
+             The use of other values is implementation-dependent.</dd>
+      </dl>
+      <dl newline="false" spacing="normal" indent="10">
+        <dt/>
+        <dd>
+             Implementations should not allow deletion of the last
+             row corresponding to an active row in
+             vrrpv3OperationsTable.</dd>
+      </dl>
+      <artwork><![CDATA[
+          Refer to the description of vrrpv3OperationsRowStatus
+          for typical row creation and deletion scenarios."
+        ::= { vrrpv3AssociatedIpAddrEntry 2 }
+
+--  VRRP Router Statistics
+]]></artwork>
+      <artwork><![CDATA[
+    vrrpv3RouterChecksumErrors OBJECT-TYPE
+        SYNTAX       Counter64
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION
+            "The total number of VRRP packets received with an
+            invalid VRRP checksum value.
+]]></artwork>
+      <dl newline="false" spacing="normal" indent="12">
+        <dt/>
+        <dd>
+               Discontinuities in the value of this counter can occur
+               at re-initialization of the management system, and at
+               other times as indicated by the value of
+               vrrpv3GlobalStatisticsDiscontinuityTime."</dd>
+      </dl>
+      <artwork><![CDATA[
+        REFERENCE "RFC 5798, Section 5.2.8"
+        ::= { vrrpv3Statistics 1 }
+
+    vrrpv3RouterVersionErrors OBJECT-TYPE
+        SYNTAX       Counter64
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION
+            "The total number of VRRP packets received with an
+            unknown or unsupported version number.
+]]></artwork>
+      <dl newline="false" spacing="normal" indent="12">
+        <dt/>
+        <dd>
+               Discontinuities in the value of this counter can occur
+               at re-initialization of the management system, and at
+               other times as indicated by the value of
+               vrrpv3GlobalStatisticsDiscontinuityTime."</dd>
+      </dl>
+      <artwork><![CDATA[
+        REFERENCE "RFC 5798, Section 5.2.1"
+        ::= { vrrpv3Statistics 2 }
+
+    vrrpv3RouterVrIdErrors OBJECT-TYPE
+        SYNTAX       Counter64
+        MAX-ACCESS   read-only
+       STATUS       current
+        DESCRIPTION
+            "The total number of VRRP packets received with a
+             VRID that is not valid for any virtual router on this
+             router.
+]]></artwork>
+      <dl newline="false" spacing="normal" indent="12">
+        <dt/>
+        <dd>
+               Discontinuities in the value of this counter can occur
+               at re-initialization of the management system, and at
+               other times as indicated by the value of
+               vrrpv3GlobalStatisticsDiscontinuityTime."</dd>
+      </dl>
+      <artwork><![CDATA[
+        REFERENCE "RFC 5798, Section 5.2.3"
+        ::= { vrrpv3Statistics 3 }
+]]></artwork>
+      <ul empty="true" spacing="normal">
+        <li>
+          <dl newline="true" spacing="normal" indent="4">
+            <dt>vrrpv3GlobalStatisticsDiscontinuityTime OBJECT-TYPE</dt>
+            <dd>
+              <t>
+	SYNTAX     TimeStamp
+          MAX-ACCESS read-only
+          STATUS     current
+          DESCRIPTION
+            "The value of sysUpTime on the most recent occasion at which one of vrrpv3RouterChecksumErrors, vrrpv3RouterVersionErrors, and vrrpv3RouterVrIdErrors suffered a discontinuity. </t>
+              <t>
+	If no such discontinuities have occurred since the last
+             re-initialization of the local management subsystem,
+             then this object contains a zero value." </t>
+            </dd>
+          </dl>
+        </li>
+      </ul>
+      <artwork><![CDATA[
+       ::= { vrrpv3Statistics 4 }
+]]></artwork>
+      <dl newline="false" spacing="normal" indent="4">
+        <dt>--</dt>
+        <dd>
+          <t>
+	VRRP Router Statistics Table
+          </t>
+          <t/>
+        </dd>
+      </dl>
+      <artwork><![CDATA[
+    vrrpv3StatisticsTable OBJECT-TYPE
+        SYNTAX       SEQUENCE OF Vrrpv3StatisticsEntry
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION
+            "Table of virtual router statistics."
+        ::= { vrrpv3Statistics 5 }
+
+    vrrpv3StatisticsEntry OBJECT-TYPE
+        SYNTAX       Vrrpv3StatisticsEntry
+        MAX-ACCESS   not-accessible
+        STATUS       current
+        DESCRIPTION
+            "An entry in the table containing statistics
+            information about a given virtual router."
+        AUGMENTS    { vrrpv3OperationsEntry }
+        ::= { vrrpv3StatisticsTable 1 }
+
+    Vrrpv3StatisticsEntry ::=
+        SEQUENCE {
+            vrrpv3StatisticsActiveTransitions
+                Counter32,
+            vrrpv3StatisticsNewActiveReason
+                INTEGER,
+            vrrpv3StatisticsRcvdAdvertisements
+                Counter64,
+            vrrpv3StatisticsAdvIntervalErrors
+                Counter64,
+            vrrpv3StatisticsIpTtlErrors
+                Counter64,
+            vrrpv3StatisticsProtoErrReason
+                INTEGER,
+            vrrpv3StatisticsRcvdPriZeroPackets
+                Counter64,
+            vrrpv3StatisticsSentPriZeroPackets
+                Counter64,
+            vrrpv3StatisticsRcvdInvalidTypePackets
+                Counter64,
+            vrrpv3StatisticsAddressListErrors
+                Counter64,
+            vrrpv3StatisticsPacketLengthErrors
+                Counter64,
+            vrrpv3StatisticsRowDiscontinuityTime
+                 TimeStamp,
+            vrrpv3StatisticsRefreshRate
+                 Unsigned32
+        }
+
+    vrrpv3StatisticsActiveTransitions OBJECT-TYPE
+        SYNTAX       Counter32
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION
+            "The total number of times that this virtual router's
+            state has transitioned to active state.
+]]></artwork>
+      <artwork><![CDATA[
+            Discontinuities in the value of this counter can occur
+            at re-initialization of the management system, and at
+            other times as indicated by the value of
+            vrrpv3StatisticsRowDiscontinuityTime."
+        ::= { vrrpv3StatisticsEntry 1 }
+]]></artwork>
+      <artwork><![CDATA[
+   vrrpv3StatisticsNewActiveReason OBJECT-TYPE
+        SYNTAX        INTEGER {
+            notActive (0),
+            priority  (1),
+            preempted (2),
+            activeNoResponse (3)
+        }
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION
+           "This indicates the reason for the virtual router to
+           transition to active state.  If the virtual router
+           never transitioned to active state, the value of this
+           object is notActive(0).  Otherwise, this indicates the
+           reason this virtual router transitioned to active
+           state the last time.  Used by vrrpv3NewActive
+           notification."
+        ::= { vrrpv3StatisticsEntry 2 }
+
+    vrrpv3StatisticsRcvdAdvertisements OBJECT-TYPE
+        SYNTAX       Counter64
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION
+            "The total number of VRRP advertisements received by
+            this virtual router.
+]]></artwork>
+      <dl newline="false" spacing="normal" indent="12">
+        <dt/>
+        <dd>
+               Discontinuities in the value of this counter can occur
+               at re-initialization of the management system, and at
+               other times as indicated by the value of
+               vrrpv3StatisticsRowDiscontinuityTime."</dd>
+      </dl>
+      <artwork><![CDATA[
+        ::= { vrrpv3StatisticsEntry 3 }
+
+    vrrpv3StatisticsAdvIntervalErrors OBJECT-TYPE
+        SYNTAX       Counter64
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION
+            "The total number of VRRP advertisement packets
+            received for which the advertisement interval is
+            different from the vrrpv3OperationsAdvInterval
+            configured on this virtual router.
+]]></artwork>
+      <dl newline="false" spacing="normal" indent="12">
+        <dt/>
+        <dd>
+               Discontinuities in the value of this counter can occur
+               at re-initialization of the management system, and at
+               other times as indicated by the value of
+               vrrpv3StatisticsRowDiscontinuityTime."</dd>
+      </dl>
+      <artwork><![CDATA[
+        ::= { vrrpv3StatisticsEntry 4 }
+
+    vrrpv3StatisticsIpTtlErrors OBJECT-TYPE
+        SYNTAX       Counter64
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION
+            "The total number of VRRP packets received by the
+            virtual router with IPv4 TTL (for VRRP over IPv4) or
+            IPv6 Hop Limit (for VRRP over IPv6) not equal to 255.
+]]></artwork>
+      <artwork><![CDATA[
+            Discontinuities in the value of this counter can occur
+            at re-initialization of the management system, and at
+            other times as indicated by the value of
+            vrrpv3StatisticsRowDiscontinuityTime."
+        REFERENCE "RFC 5798, Section 5.1.1.3"
+        ::= { vrrpv3StatisticsEntry 5 }
+]]></artwork>
+      <artwork><![CDATA[
+   vrrpv3StatisticsProtoErrReason OBJECT-TYPE
+        SYNTAX        INTEGER {
+            noError (0),
+            ipTtlError (1),
+            versionError  (2),
+            checksumError (3),
+            vrIdError(4)
+        }
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION
+            "This indicates the reason for the last protocol
+            error.  This SHOULD be set to noError(0) when no
+            protocol errors are encountered.  Used by
+            vrrpv3ProtoError notification."
+        ::= { vrrpv3StatisticsEntry 6 }
+
+    vrrpv3StatisticsRcvdPriZeroPackets OBJECT-TYPE
+        SYNTAX       Counter64
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION
+]]></artwork>
+      <dl newline="false" spacing="normal" indent="12">
+        <dt/>
+        <dd>
+               "The total number of VRRP packets received by the virtual router with a priority of '0'.</dd>
+      </dl>
+      <artwork><![CDATA[
+            Discontinuities in the value of this counter can occur
+            at re-initialization of the management system, and at
+            other times as indicated by the value of
+            vrrpv3StatisticsRowDiscontinuityTime."
+        REFERENCE "RFC 5798, Section 5.2.4"
+        ::= { vrrpv3StatisticsEntry 7 }
+]]></artwork>
+      <artwork><![CDATA[
+    vrrpv3StatisticsSentPriZeroPackets OBJECT-TYPE
+        SYNTAX       Counter64
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION
+            "The total number of VRRP packets sent by the virtual
+            router with a priority of '0'.
+]]></artwork>
+      <artwork><![CDATA[
+            Discontinuities in the value of this counter can occur
+            at re-initialization of the management system, and at
+            other times as indicated by the value of
+            vrrpv3StatisticsRowDiscontinuityTime."
+        REFERENCE "RFC 5798, Section 5.2.4"
+        ::= { vrrpv3StatisticsEntry 8 }
+]]></artwork>
+      <artwork><![CDATA[
+    vrrpv3StatisticsRcvdInvalidTypePackets OBJECT-TYPE
+        SYNTAX       Counter64
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION
+            "The number of VRRP packets received by the virtual
+            router with an invalid value in the 'type' field.
+]]></artwork>
+      <artwork><![CDATA[
+            Discontinuities in the value of this counter can occur
+            at re-initialization of the management system, and at
+            other times as indicated by the value of
+            vrrpv3StatisticsRowDiscontinuityTime."
+        ::= { vrrpv3StatisticsEntry 9 }
+]]></artwork>
+      <artwork><![CDATA[
+    vrrpv3StatisticsAddressListErrors OBJECT-TYPE
+        SYNTAX       Counter64
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION
+            "The total number of packets received for which the
+            address list does not match the locally configured
+            list for the virtual router.
+]]></artwork>
+      <artwork><![CDATA[
+            Discontinuities in the value of this counter can occur
+            at re-initialization of the management system, and at
+            other times as indicated by the value of
+            vrrpv3StatisticsRowDiscontinuityTime."
+        ::= { vrrpv3StatisticsEntry 10 }
+]]></artwork>
+      <artwork><![CDATA[
+    vrrpv3StatisticsPacketLengthErrors OBJECT-TYPE
+        SYNTAX       Counter64
+        MAX-ACCESS   read-only
+        STATUS       current
+        DESCRIPTION
+            "The total number of packets received with a packet
+            length less than the length of the VRRP header.
+]]></artwork>
+      <artwork><![CDATA[
+            Discontinuities in the value of this counter can occur
+            at re-initialization of the management system, and at
+            other times as indicated by the value of
+            vrrpv3StatisticsRowDiscontinuityTime."
+        ::= { vrrpv3StatisticsEntry 11 }
+
+   vrrpv3StatisticsRowDiscontinuityTime OBJECT-TYPE
+       SYNTAX     TimeStamp
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+          "The value of sysUpTime on the most recent occasion at
+          which any one or more of this entry's counters
+          suffered a discontinuity.
+
+          If no such discontinuities have occurred since the last
+          re-initialization of the local management subsystem,
+          then this object contains a zero value."
+       ::= { vrrpv3StatisticsEntry 12 }
+
+   vrrpv3StatisticsRefreshRate OBJECT-TYPE
+       SYNTAX     Unsigned32
+       UNITS "milliseconds"
+       MAX-ACCESS read-only
+       STATUS     current
+       DESCRIPTION
+         "The minimum reasonable polling interval for this entry.
+          This object provides an indication of the minimum
+          amount of time required to update the counters in this
+          entry."
+       ::= { vrrpv3StatisticsEntry 13 }
+]]></artwork>
+      <artwork><![CDATA[
+--   Notification Definitions
+--   Notifications may be controlled using SNMP-NOTIFICATION-MIB
+    vrrpv3NewActive NOTIFICATION-TYPE
+        OBJECTS      {
+                       vrrpv3OperationsActiveIpAddr,
+                       vrrpv3StatisticsNewActiveReason
+                     }
+        STATUS       current
+        DESCRIPTION
+            "The newActive notification indicates that the sending
+            agent has transitioned to active state."
+        ::= { vrrpv3Notifications 1 }
+]]></artwork>
+      <artwork><![CDATA[
+    vrrpv3ProtoError NOTIFICATION-TYPE
+        OBJECTS      {
+                       vrrpv3StatisticsProtoErrReason
+                     }
+        STATUS       current
+        DESCRIPTION
+            "The notification indicates that the sending agent has
+            encountered the protocol error indicated by
+            vrrpv3StatisticsProtoErrReason."
+        ::= { vrrpv3Notifications 2 }
+
+--  Conformance Information
+]]></artwork>
+      <artwork><![CDATA[
+ vrrpv3Compliances  OBJECT IDENTIFIER ::= { vrrpv3Conformance 1 }
+ vrrpv3Groups       OBJECT IDENTIFIER ::= { vrrpv3Conformance 2 }
+
+-- Compliance Statements
+]]></artwork>
+      <artwork><![CDATA[
+    vrrpv3FullCompliance MODULE-COMPLIANCE
+        STATUS current
+        DESCRIPTION
+           "The compliance statement"
+        MODULE -- this module
+        MANDATORY-GROUPS  {
+            vrrpv3OperationsGroup,
+            vrrpv3StatisticsGroup,
+            vrrpv3InfoGroup,
+            vrrpv3NotificationsGroup
+        }
+        OBJECT        vrrpv3OperationsPriority
+        WRITE-SYNTAX  Unsigned32 (1..254)
+        DESCRIPTION  "Setable values are from 1 to 254."
+        ::= { vrrpv3Compliances 1 }
+
+    vrrpv3ReadOnlyCompliance MODULE-COMPLIANCE
+        STATUS current
+        DESCRIPTION
+
+           "When this MIB module is implemented without support
+           for read-create (i.e., in read-only mode), then such
+           an implementation can claim read-only compliance.
+           Such a device can then be monitored, but cannot be
+           configured with this MIB."
+
+        MODULE -- this module
+        MANDATORY-GROUPS  {
+            vrrpv3OperationsGroup,
+            vrrpv3StatisticsGroup,
+            vrrpv3StatisticsDiscontinuityGroup,
+            vrrpv3InfoGroup,
+            vrrpv3NotificationsGroup
+        }
+
+        OBJECT        vrrpv3OperationsPriority
+        MIN-ACCESS    read-only
+        DESCRIPTION  "Write access is not required."
+]]></artwork>
+      <artwork><![CDATA[
+        OBJECT        vrrpv3OperationsPrimaryIpAddr
+        MIN-ACCESS    read-only
+        DESCRIPTION  "Write access is not required."
+        OBJECT        vrrpv3OperationsAdvInterval
+        MIN-ACCESS    read-only
+        DESCRIPTION  "Write access is not required."
+]]></artwork>
+      <ul empty="true" spacing="normal">
+        <li>
+          <dl newline="false" spacing="normal" indent="22">
+            <dt>OBJECT</dt>
+            <dd>
+              <t>
+	vrrpv3OperationsPreemptMode
+              </t>
+              <t>
+	MIN-ACCESS    read-only
+           DESCRIPTION  "Write access is not required."
+              </t>
+            </dd>
+            <dt>OBJECT</dt>
+            <dd>
+              <t>
+	vrrpv3OperationsAcceptMode
+              </t>
+              <t>
+	MIN-ACCESS    read-only
+           DESCRIPTION  "Write access is not required."
+              </t>
+            </dd>
+            <dt>OBJECT</dt>
+            <dd>
+              <t>
+	vrrpv3OperationsRowStatus
+              </t>
+              <t>
+	MIN-ACCESS    read-only
+           DESCRIPTION  "Write access is not required."
+              </t>
+            </dd>
+            <dt>OBJECT</dt>
+            <dd>
+              <t>
+	vrrpv3AssociatedIpAddrRowStatus
+              </t>
+              <t>
+	MIN-ACCESS    read-only
+           DESCRIPTION  "Write access is not required."
+              </t>
+            </dd>
+          </dl>
+        </li>
+      </ul>
+      <artwork><![CDATA[
+        ::= { vrrpv3Compliances 2 }
+
+-- Conformance Groups
+]]></artwork>
+      <artwork><![CDATA[
+    vrrpv3OperationsGroup   OBJECT-GROUP
+        OBJECTS  {
+
+            vrrpv3OperationsVirtualMacAddr,
+            vrrpv3OperationsStatus,
+            vrrpv3OperationsPriority,
+            vrrpv3OperationsActiveIpAddr,
+            vrrpv3OperationsAdvInterval,
+            vrrpv3OperationsPreemptMode,
+            vrrpv3OperationsAcceptMode,
+            vrrpv3OperationsUpTime,
+            vrrpv3OperationsRowStatus,
+            vrrpv3OperationsAddrCount,
+            vrrpv3OperationsPrimaryIpAddr,
+            vrrpv3AssociatedIpAddrRowStatus
+            }
+        STATUS current
+        DESCRIPTION
+           "Conformance group for VRRPv3 operations."
+        ::= { vrrpv3Groups 1 }
+
+    vrrpv3StatisticsGroup  OBJECT-GROUP
+        OBJECTS  {
+            vrrpv3RouterChecksumErrors,
+            vrrpv3RouterVersionErrors,
+            vrrpv3RouterVrIdErrors,
+            vrrpv3StatisticsActiveTransitions,
+            vrrpv3StatisticsNewActiveReason,
+            vrrpv3StatisticsRcvdAdvertisements,
+            vrrpv3StatisticsAdvIntervalErrors,
+            vrrpv3StatisticsRcvdPriZeroPackets,
+            vrrpv3StatisticsSentPriZeroPackets,
+            vrrpv3StatisticsRcvdInvalidTypePackets,
+            vrrpv3StatisticsIpTtlErrors,
+            vrrpv3StatisticsProtoErrReason,
+            vrrpv3StatisticsAddressListErrors,
+            vrrpv3StatisticsPacketLengthErrors,
+            vrrpv3StatisticsRowDiscontinuityTime,
+            vrrpv3StatisticsRefreshRate
+            }
+        STATUS current
+        DESCRIPTION
+           "Conformance group for VRRPv3 statistics."
+        ::= { vrrpv3Groups 2 }
+
+    vrrpv3StatisticsDiscontinuityGroup  OBJECT-GROUP
+        OBJECTS  {
+            vrrpv3GlobalStatisticsDiscontinuityTime
+            }
+        STATUS current
+        DESCRIPTION
+
+           "Objects providing information about counter
+            discontinuities."
+        ::= { vrrpv3Groups 3 }
+
+    vrrpv3InfoGroup  OBJECT-GROUP
+        OBJECTS  {
+            vrrpv3StatisticsProtoErrReason,
+            vrrpv3StatisticsNewActiveReason
+            }
+        STATUS current
+        DESCRIPTION
+           "Conformance group for objects contained in VRRPv3
+            notifications."
+        ::= { vrrpv3Groups 4 }
+
+    vrrpv3NotificationsGroup NOTIFICATION-GROUP
+        NOTIFICATIONS {
+            vrrpv3NewActive,
+            vrrpv3ProtoError
+            }
+        STATUS current
+        DESCRIPTION
+           "The VRRP MIB Notification Group."
+        ::= { vrrpv3Groups 5 }
+]]></artwork>
+      <t>
+   END</t>
+    </section>
+    <section anchor="sect-11">
+      <name>Security Considerations</name>
+      <t>
+   There are a number of management objects defined in this MIB module
+   with a MAX-ACCESS clause of read-write and/or read-create.  Such
+   objects may be considered sensitive or vulnerable in some network
+   environments.  The support for SET operations in a non-secure
+   environment without proper protection can have a negative effect on
+   network operations.  These are the tables and objects and their
+   sensitivity/vulnerability:</t>
+      <t>
+   The objects vrrpv3OperationsPriority, vrrpv3OperationsPrimaryIpAddr,
+   vrrpv3OperationsAdvInterval, vrrpv3OperationsPreemptMode,
+   vrrpv3OperationsAcceptMode, vrrpv3OperationsRowStatus, and
+   vrrpv3AssociatedIpAddrRowStatus possess the read-create attribute.
+   Manipulation of these objects is capable of affecting the operation
+   of a virtual router.</t>
+      <t>
+   Examples of how these objects could adversely affect the operation of
+   a virtual router include:</t>
+      <ul spacing="normal">
+        <li>An unauthorized change to vrrpv3OperationsPriority can affect the
+     priority used in active election, resulting in this router either
+     becoming active when it should not, or in some other router being
+     elected by preference.  While this will disrupt the operator's
+     plans, it will only replicate the unfortunate failure of multiple
+     routers, and any router that does become active will be capable of
+     filling that role.</li>
+        <li>Modification of vrrpv3OperationsPrimaryIpAddr would cause the
+     configured router to take on an incorrect IP address if it becomes
+     active, which would be potentially very disruptive to the network
+     operation.</li>
+        <li>A malicious change to vrrpv3OperationsAdvInterval could either
+     result in the configured router flooding the network with
+     advertisements when it becomes active, or the new active not
+     advertising frequently enough such that some routers do not learn
+     about the new active.</li>
+        <li>vrrpv3OperationsPreemptMode controls whether this router will
+     preempt another active router.  Setting it inappropriately will at
+     worse cause one router to be active against the operator's plans,
+     but that router will still be qualified to operate as a active.</li>
+        <li>Setting the vrrpv3OperationsAcceptMode could prevent an
+     IPv6-capable VRRP router from accepting packets addressed to the
+     address owner's IPv6 address as its own even if it is not the IPv6
+     address owner.  Although the default for this object is false(2),
+     unauthorized setting of this object to false might restrict the
+     function of some parts of the network.</li>
+        <li>The vrrpv3OperationsRowStatus object that could be used to disable
+     a virtual router.  While there are other columns that, if changed,
+     could disrupt operations, they cannot be changed without first
+     changing the RowStatus object.</li>
+      </ul>
+      <t>
+   SNMP versions prior to SNMPv3 did not include adequate security.
+   Even if the network itself is secure (for example by using IPsec),
+   there is no control as to who on the secure network is allowed to
+   access and GET/SET (read/change/create/delete) the objects in this
+   MIB module.</t>
+      <t>
+   Implementations MUST provide the security features described by the
+   SNMPv3 framework (see <xref target="RFC3410"/>), including full support for
+   authentication and privacy via the User-based Security Model (USM)
+   <xref target="RFC3414"/> with the AES cipher algorithm <xref target="RFC3826"/>.  Implementations
+   MAY also provide support for the Transport Security Model (TSM)
+   <xref target="RFC5591"/> in combination with a secure transport such as SSH
+   <xref target="RFC5592"/> or TLS/DTLS <xref target="RFC6353"/>.</t>
+      <t>
+   Further, deployment of SNMP versions prior to SNMPv3 is NOT
+   RECOMMENDED.  Instead, it is RECOMMENDED to deploy SNMPv3 and to
+   enable cryptographic security.  It is then a customer/operator
+   responsibility to ensure that the SNMP entity giving access to an
+   instance of this MIB module is properly configured to give access to
+   the objects only to those principals (users) that have legitimate
+   rights to indeed GET or SET (change/create/delete) them.</t>
+    </section>
+    <section anchor="sect-12">
+      <name>IANA Considerations</name>
+      <t>
+   The MIB module in this document uses the following IANA-assigned
+   OBJECT IDENTIFIER values recorded in the SMI Numbers registry:</t>
+      <artwork><![CDATA[
+     Descriptor        OBJECT IDENTIFIER value
+     ----------        -----------------------
+
+     vrrpv3MIB           { mib-2 207 vrrpv3MIB VRRPV3-MIB }
+]]></artwork>
+      <t>
+   This document obsoletes RFC 2787.  Therefore, IANA has deprecated
+   value 68 under 'mib-2', which is assigned to VRRP-MIB.</t>
+    </section>
+  </middle>
+<back>
+  <references title="Normative References">
+    <reference anchor="RFC5798">
+      <front>
+	<title>Virtual Router Redundancy Protocol (VRRP) Version 3 for IPv4 and IPv6</title>
+	<author initials="S." surname="Nadas" fullname="Stephen Nadas">
+	  <organization>Ericsson</organization>
+	</author>
+	<date year="2010" />
+
+	<area>VRRP Working Group</area>
+	<workgroup>Internet Engineering Task Force</workgroup>
+
+	<abstract>
+	  <t>
+	    This memo defines the Virtual Router Redundancy Protocol (VRRP) for
+	    IPv4 and IPv6.  It is version three (3) of the protocol, and it is
+	    based on VRRP (version 2) for IPv4 that is defined in RFC 3768 and in
+	    "Virtual Router Redundancy Protocol for IPv6".  VRRP specifies an
+	    election protocol that dynamically assigns responsibility for a
+	    virtual router to one of the VRRP routers on a LAN.  The VRRP router
+	    controlling the IPv4 or IPv6 address(es) associated with a virtual
+	    router is called the Active router, and it forwards packets sent to these
+	    IPv4 or IPv6 addresses.  VRRP Active routers are configured with
+	    virtual IPv4 or IPv6 addresses, and VRRP Backup routers infer the
+	    address family of the virtual addresses being carried based on the
+	    transport protocol.  Within a VRRP router, the virtual routers in
+	    each of the IPv4 and IPv6 address families are a domain unto
+	    themselves and do not overlap.  The election process provides dynamic
+	    failover in the forwarding responsibility should the Active become
+	    unavailable.  For IPv4, the advantage gained from using VRRP is a
+	    higher-availability default path without requiring configuration of
+	    dynamic routing or router discovery protocols on every end-host.  For
+	    IPv6, the advantage gained from using VRRP for IPv6 is a quicker
+	    switchover to Backup routers than can be obtained with standard IPv6
+	    Neighbor Discovery mechanisms.</t>
+	  </abstract>
+
+	  <note title="Requirements Language">
+	    <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <xref target="RFC2119">RFC 2119</xref>.</t>
+	  </note>
+
+	</front>
+	<seriesInfo name="RFC" value="5798" />
+      </reference>
+      <reference anchor="ISO.10038.1993">
+	<front>
+<title>Information technology - Telecommunications and information exchange between systems - Local area networks - Media access control (MAC) bridges</title>
+<author>
+<organization>International Organization for Standardization</organization>
+</author>
+<date year="1993"/>
+</front>
+<seriesInfo name="ISO" value="Standard 10038"/>
+</reference>
+<reference anchor="RFC2119">
+  <front>
+<title>Key words for use in RFCs to Indicate Requirement Levels</title>
+<author initials="S." surname="Bradner" fullname="Scott Bradner">
+<organization>Harvard University</organization>
+</author>
+<date year="1997" />
+</front>
+</reference>
+<reference anchor="RFC2460">
+  <front>
+<title>Internet Protocol, Version 6 (IPv6) Specification</title>
+<author initials="S." surname="Deering" fullname="Stephen E. Deering">
+<organization>Cisco</organization>
+</author>
+<author initials="R" surname="Hinden" fullname="Robert M. Hinden">
+<organization>Nokia</organization>
+</author>
+<date year="1998" />
+</front>
+</reference>
+<reference anchor="RFC3768">
+  <front>
+<title>Virtual Router Redundancy Protocol</title>
+<author initials="R" surname="Hinden" fullname="Robert M. Hinden">
+<organization>Nokia</organization>
+</author>
+<date year="2004" />
+</front>
+</reference>
+<reference anchor="RFC4291">
+  <front>
+<title>IP Version 6 Addressing Architecture</title>
+<author initials="S." surname="Deering" fullname="Stephen E. Deering">
+<organization>Cisco</organization>
+</author>
+<author initials="R" surname="Hinden" fullname="Robert M. Hinden">
+<organization>Nokia</organization>
+</author>
+<date year="2006" />
+</front>
+</reference>
+<reference anchor="RFC4443">
+  <front>
+<title>Internet Control Message Protocol (ICMPv6) for the Internet Protocol Version 6 (IPv6) Specification</title>
+<author initials="S." surname="Deering" fullname="Stephen E. Deering">
+<organization>Cisco</organization>
+</author>
+<author initials="A" surname="Conta" fullname="Alex Conta">
+<organization>Transwitch</organization>
+</author>
+<author initials="M" surname="Gupta" fullname="Mukesh Gupta">
+<organization> Tropos Networks</organization>
+</author>
+<date year="2006" />
+</front>
+</reference>
+<reference anchor="RFC4861">
+  <front>
+<title>Neighbor Discovery for IP version 6</title>
+<author initials="T." surname="Narten" fullname="Thomas Narten">
+<organization>IBM</organization>
+</author>
+<author initials="E" surname="Nordmark" fullname="Erik Nordmark">
+<organization>Sun Microsystems</organization>
+</author>
+<author initials="M" surname="Simpson" fullname="William Allen Simpson">
+<organization> Daydreamer</organization>
+</author>
+<author initials="H" surname="Soliman" fullname="Hesham Soliman">
+<organization> Elevate Technologies</organization>
+</author>
+<date year="2007" />
+</front>
+</reference>
+</references>
+<references>
+<name>Informative References</name>
+<reference anchor="VRRP-IPv6">
+  <front>
+<title>Virtual Router Redundancy Protocol for IPv6</title>
+<author initials="R." surname="Hinden" fullname="R. Hinden">
+</author>
+<author initials="J." surname="Cruz" fullname="J. Cruz">
+</author>
+<date month="March" year="2007"/>
+</front>
+<seriesInfo name="Work" value="in Progress"/>
+</reference>
+<reference anchor="IPSTB">
+  <front>
+    <title>Development of Router Clusters to Provide Fast Failover in IP Networks",
+    Digital Technical Journal, Volume 9 Number 3
+</title>
+<author>
+<organization>Higginson, P. and M. Shand</organization>
+</author>
+<date year="1997"/>
+</front>
+</reference>
+<reference anchor="IPX">
+  <front>
+<title>IPX Router Specification Version 1.10</title>
+<author>
+<organization>Novell Incorporated</organization>
+</author>
+<date month="October" year="1992"/>
+</front>
+</reference>
+
+<reference anchor="RFC1071">
+  <front>
+<title>Computing the Internet Checksum</title>
+<author initials="R." surname="Braden" fullname="R.Braden">
+<organization>ISI</organization>
+</author>
+<author initials="D." surname="Borman" fullname="D.Borman">
+<organization>Cray Research</organization>
+</author>
+<author initials="C." surname="Partridge" fullname="C.Partridge">
+<organization>BBN Laboratories</organization>
+</author>
+<date month="September" year="1988"/>
+</front>
+</reference>
+<reference anchor="RFC2328">
+  <front>
+<title>OSPF Version 2</title>
+<author initials="J." surname="Moy" fullname="John Moy">
+<organization>Ascend Communications, Inc.</organization>
+</author>
+<date month="April" year="1998"/>
+</front>
+</reference>
+<reference anchor="RFC1256">
+  <front>
+<title>ICMP Router Discovery Messages</title>
+<author initials="S." surname="Deering" fullname="Stephen E. Deering">
+<organization>Xerox PARC</organization>
+</author>
+<date month="September" year="1991"/>
+</front>
+</reference>
+<reference anchor="RFC1469">
+  <front>
+<title>IP Multicast over Token-Ring Local Area Networks</title>
+<author initials="T." surname="Pusateri" fullname="Thomas J. Pusateri">
+<organization>Consultant</organization>
+</author>
+<date month="June" year="1993"/>
+</front>
+</reference>
+<reference anchor="RFC2131">
+  <front>
+<title>Dynamic Host Configuration Protocol</title>
+<author initials="T." surname="Droms" fullname="Ralph Droms">
+<organization>Bucknell University</organization>
+</author>
+<date month="March" year="1997"/>
+</front>
+</reference>
+<reference anchor="RFC2281">
+  <front>
+<title>Cisco Hot Standby Router Protocol (HSRP)</title>
+<author initials="T." surname="Li" fullname="Toni Li">
+<organization>Juniper Networks</organization>
+</author>
+<author initials="B." surname="Cole" fullname="Bruce Cole">
+<organization>Juniper Networks</organization>
+</author>
+<author initials="P." surname="Morton" fullname="Phil Morton">
+<organization>Cisco Systems</organization>
+</author>
+<author initials="D." surname="Lo" fullname="Dawn LI">
+<organization>Cisco Systems</organization>
+</author>
+<date month="March" year="1998"/>
+</front>
+</reference>
+<reference anchor="RFC2338">
+  <front>
+<title>Virtual Router Redundancy Protocol</title>
+<author initials="S." surname="Knight" fullname="S. Knight">
+<organization>BAscend Communications</organization>
+</author>
+<author initials="D." surname="Weaver" fullname="D. Weaver">
+<organization>Ascend Communications</organization>
+</author>
+<author initials="D." surname="Whipple" fullname="D. Whipple">
+<organization>Microsoft</organization>
+</author>
+<author initials="R." surname="Hinden" fullname="R. Hinden">
+<organization>Nokia</organization>
+</author>
+<author initials="D." surname="Mitzel" fullname="D. Mitzel">
+<organization>Nokia</organization>
+</author>
+<author initials="P." surname="Hunt" fullname="P. Hunt">
+<organization>Nokia</organization>
+</author>
+<author initials="P." surname="Higginson" fullname="P. Higginson">
+<organization>Digital Equipment Corp</organization>
+</author>
+<author initials="M." surname="Shand" fullname="M. Shand">
+<organization>Digital Equipment Corp</organization>
+</author>
+<author initials="A." surname="Lindem" fullname="A. Lindem">
+<organization>IBM Corporation</organization>
+</author>
+<author initials="G." surname="Malkin" fullname="Gary Scott Malkin">
+<organization>Bay Networks</organization>
+</author>
+<date month="April" year="1998"/>
+</front>
+</reference>
+<reference anchor="RFC2453">
+  <front>
+<title>RIP Version 2</title>
+<author initials="G." surname="Malkin" fullname="Gary Scott Malkin">
+<organization>Bay Networks</organization>
+</author>
+<date month="November" year="1998"/>
+</front>
+</reference>
+<reference anchor="RFC2464">
+  <front>
+<title>Transmission of IPv6 Packets over Ethernet Networks</title>
+<author initials="M." surname="Crawford" fullname="Matt Crawford">
+<organization>Fermilab</organization>
+</author>
+<date month="December" year="1998"/>
+</front>
+</reference>
+<reference anchor="RFC3971">
+  <front>
+<title>SEcure Neighbor Discovery (SEND)</title>
+<author initials="J." surname="Arkko" fullname="J. Arkko">
+<organization>Ericsson</organization>
+</author>
+<author initials="J." surname="Kempf" fullname="J. Kempf">
+<organization>DoCoMo Communications Labs USA</organization>
+</author>
+<author initials="B." surname="Zill" fullname="B. Zill">
+<organization>Microsoft</organization>
+</author>
+<author initials="P." surname="Nikander" fullname="P. Nikander">
+<organization>Ericsson</organization>
+</author>
+<date month="March" year="2005"/>
+</front>
+</reference>
+
+<reference anchor="TKARCH">
+  <front>
+<title>IBM Token-Ring Network, Architecture Specification, Publication SC30-3374-02, Third Edition</title>
+<author>
+<organization>IBM Incorporated</organization>
+</author>
+<date month="September" year="1989"/>
+</front>
+</reference>
+</references>
+
+<section anchor="sect-a">
+<name>Operation over FDDI, Token Ring, and ATM LANE</name>
+<section anchor="sect-a.1">
+<name>Operation over FDDI</name>
+<t>
+  FDDI interfaces remove from the FDDI ring frames that have a source
+  MAC address matching the device's hardware address.  Under some
+  conditions, such as router isolations, ring failures, protocol
+  transitions, etc., VRRP may cause there to be more than one Active
+  router.  If a Active router installs the virtual router MAC address
+  as the hardware address on a FDDI device, then other Actives'
+  ADVERTISEMENTS will be removed from the ring during the Active
+convergence, and convergence will fail.</t>
+<t>
+  To avoid this, an implementation SHOULD configure the virtual router
+  MAC address by adding a unicast MAC filter in the FDDI device, rather
+  than changing its hardware MAC address.  This will prevent a Active
+router from removing any ADVERTISEMENTS it did not originate.</t>
+</section>
+<section anchor="sect-a.2">
+  <name>Operation over Token Ring</name>
+  <t>
+    Token Ring has several characteristics that make running VRRP
+  difficult.  These include the following:</t>
+  <ul spacing="normal">
+    <li>In order to switch to a new Active located on a different bridge
+    Token-Ring segment from the previous Active when using source-
+    route bridges, a mechanism is required to update cached source-
+    route information.</li>
+    <li>No general multicast mechanism is supported across old and new
+    Token-Ring adapter implementations.  While many newer Token-Ring
+    adapters support group addresses, Token-Ring functional-address
+    support is the only generally available multicast mechanism.  Due
+    to the limited number of Token-Ring functional addresses, these
+    may collide with other usage of the same Token-Ring functional
+    addresses.</li>
+  </ul>
+  <t>
+    Due to these difficulties, the preferred mode of operation over Token
+    Ring will be to use a Token-Ring functional address for the VRID
+    virtual MAC address.  Token-Ring functional addresses have the two
+    high-order bits in the first MAC address octet set to B'1'.  They
+    range from 03-00-00-00-00-80 to 03-00-02-00-00-00 (canonical format).
+    However, unlike multicast addresses, there is only one unique
+    functional address per bit position.  The functional addresses
+    03-00-00-10-00-00 through 03-00-02-00-00-00 are reserved by the
+    Token-Ring Architecture <xref target="TKARCH"/> for user-defined applications.
+    However, since there are only 12 user-defined Token-Ring functional
+    addresses, there may be other non-IPvX protocols using the same
+    functional address.  Since the Novell IPX <xref target="IPX"/> protocol uses the
+    03-00-00-10-00-00 functional address, operation of VRRP over Token
+    Ring will avoid use of this functional address.  In general, Token-
+    Ring VRRP users will be responsible for resolution of other user-
+  defined Token-Ring functional address conflicts.</t>
+  <t>
+    VRIDs are mapped directly to Token-Ring functional addresses.  In
+    order to decrease the likelihood of functional-address conflicts,
+    allocation will begin with the largest functional address.  Most non-
+    IPvX protocols use the first or first couple user-defined functional
+    addresses, and it is expected that VRRP users will choose VRIDs
+  sequentially, starting with 1.</t>
+  <artwork><![CDATA[
+  VRID      Token-Ring Functional Address
+  ----      -----------------------------
+  1             03-00-02-00-00-00
+  2             03-00-04-00-00-00
+  3             03-00-08-00-00-00
+  4             03-00-10-00-00-00
+  5             03-00-20-00-00-00
+  6             03-00-40-00-00-00
+  7             03-00-80-00-00-00
+  8             03-00-00-01-00-00
+  9             03-00-00-02-00-00
+  10            03-00-00-04-00-00
+  11            03-00-00-08-00-00
+  ]]></artwork>
+  <t>
+    Or, more succinctly, octets 3 and 4 of the functional address are
+  equal to (0x4000 >> (VRID - 1)) in non-canonical format.</t>
+  <t>
+    Since a functional address cannot be used as a MAC-level source
+    address, the real MAC address is used as the MAC source address in
+    VRRP advertisements.  This is not a problem for bridges, since
+    packets addressed to functional addresses will be sent on the
+  spanning-tree explorer path <xref target="ISO.10038.1993"/>.</t>
+  <t>
+    The functional-address mode of operation MUST be implemented by
+  routers supporting VRRP on Token Ring.</t>
+  <t>
+    Additionally, routers MAY support the unicast mode of operation to
+    take advantage of newer Token-Ring adapter implementations that
+    support non-promiscuous reception for multiple unicast MAC addresses
+    and to avoid both the multicast traffic and usage conflicts
+    associated with the use of Token-Ring functional addresses.  Unicast
+    mode uses the same mapping of VRIDs to virtual MAC addresses as
+    Ethernet.  However, one important difference exists.  ND
+    request/reply packets contain the virtual MAC address as the source
+    MAC address.  The reason for this is that some Token-Ring driver
+    implementations keep a cache of MAC address/source-routing
+  information independent of the ND cache.</t>
+  <t>
+    Hence, these implementations have to receive a packet with the
+    virtual MAC address as the source address in order to transmit to
+  that MAC address in a source-route-bridged network.</t>
+  <t>
+    Unicast mode on Token Ring has one limitation that should be
+    considered.  If there are VRID routers on different source-route-
+    bridge segments, and there are host implementations that keep their
+    source-route information in the ND cache and do not listen to
+    gratuitous NDs, these hosts will not update their ND source-route
+    information correctly when a switchover occurs.  The only possible
+    solution is to put all routers with the same VRID on the same source-
+    route-bridge segment and use techniques to prevent that bridge
+    segment from being a single point of failure.  These techniques are
+  beyond the scope of this document.</t>
+  <t>
+    For both the multicast and unicast mode of operation, VRRP
+    advertisements sent to 224.0.0.18 should be encapsulated as described
+  in <xref target="RFC1469"/>.</t>
+</section>
+<section anchor="sect-a.3">
+  <name>Operation over ATM LANE</name>
+  <t>
+    Operation of VRRP over ATM LANE on routers with ATM LANE interfaces
+    and/or routers behind proxy LAN Emulation Clients (LECs) are beyond
+  the scope of this document.</t>
+</section>
+</section>
+</back>
+</rfc>
